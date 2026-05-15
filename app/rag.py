@@ -60,3 +60,28 @@ def initialize_rag_from_docs() -> None:
             logger.info(f'Загружено {len(documents)} документов в RAG-хранилище')
         else:
             logger.warning('В директории docs/ не найдено .md-файлов')
+
+
+def add_document_to_index(file_path: str) -> bool:
+    """
+    Инкрементально добавляет один документ в векторную БД.
+    Возвращает True при успехе.
+    """
+    try:
+        content = Path(file_path).read_text(encoding="utf-8").strip()
+        if not content:
+            return False
+        
+        doc = Document(
+            page_content=content,
+            metadata={'source': str(file_path)},
+        )
+        hash_hex = hashlib.md5(str(file_path).encode()).hexdigest()
+        doc_id = str(uuid.UUID(hash_hex[:32]))
+        vector_store.add_documents([doc], ids=[doc_id])
+        logger.info(f'Документ добавлен в индекс: {file_path}')
+        return True
+    except Exception as e:
+        logger.error(f'Ошибка при добавлении документа {file_path}: {e}')
+        return False
+    
