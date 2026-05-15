@@ -24,7 +24,7 @@ if client.collection_exists(collection_name=collection_name):
 
 client.create_collection(
     collection_name=collection_name,
-    vectors_config=VectorParams()
+    vectors_config=VectorParams(size=vector_size, distance=Distance.COSINE)
 )
 
 embeddings = OllamaEmbeddings(model=embedding_model_name)
