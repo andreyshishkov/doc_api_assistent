@@ -86,7 +86,7 @@ def add_document_to_index(file_path: str) -> bool:
         return False
 
 
-def search_documentation(query: str, k: int = 1, similarity_threshold: float = 0.2) -> str | None:
+def search_documentation(query: str, k: int = 1, similarity_threshold: float = 0.62) -> str | None:
     """Выполняет семантический поиск по документации API."""
     try:
         logger.info(f'Семантический поиск: {query!r}')
