@@ -9,3 +9,15 @@ class SearchResponse(BaseModel):
     found: bool
     content: str | None = None
     message: str | None = None
+
+
+class GenerateRequeest(BaseModel):
+    query: str
+
+
+class GenerateResponse(BaseModel):
+    success: str
+    message: str
+    content: str | None = None
+    file_path: str | None = None
+    
