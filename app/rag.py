@@ -84,4 +84,24 @@ def add_document_to_index(file_path: str) -> bool:
     except Exception as e:
         logger.error(f'Ошибка при добавлении документа {file_path}: {e}')
         return False
+
+
+def search_documentation(query: str, k: int = 1, similarity_threshold: float = 0.2) -> str | None:
+    """Выполняет семантический поиск по документации API."""
+    try:
+        logger.info(f'Семантический поиск: {query!r}')
+        results = vector_store.similarity_search_with_score(
+            query=query,
+            k=k,
+            score_threshold=similarity_threshold,
+        )
+        if results:
+            doc, score = results[0]
+            logger.info(f'Найден релевантный документ ({doc.metadata["source"]}) (score={score:.3f}) для {query!r}')
+            return doc.page_content
+        logger.info(f'Релевантные документы не найдены для {query!r}')
+        return None
+    except Exception as exc:
+        logger.error(f'Ошибка при выполнении RAG-поиска для {query!r}: {exc}', exc_info=True)
+        return None
     
