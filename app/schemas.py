@@ -16,7 +16,7 @@ class GenerateRequeest(BaseModel):
 
 
 class GenerateResponse(BaseModel):
-    success: str
+    success: bool
     message: str
     content: str | None = None
     file_path: str | None = None
