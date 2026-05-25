@@ -25,11 +25,6 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title='AI Docs Assistant', lifespan=lifespan)
 
 
-@app.get('/health')
-def health_check():
-    return {'status': 'ok'}
-
-
 @app.post('/search', response_model=SearchResponse)
 def search_docs(request: SearchRequest):
     """
