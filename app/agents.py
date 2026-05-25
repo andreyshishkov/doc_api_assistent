@@ -78,7 +78,7 @@ def generate_and_validate_documentation(query: str) -> str | None:
 
     if 'valid' in validation_result:
         logger.info(f'Документ прошёл валидацию для запроса: {query}')
-        return str(gen_task.output.raw)
+        return str(gen_task.output.raw).strip()
     else:
         logger.warning(f'Документ не прошёл валидацию. Вердикт: {validation_result}')
         return None
