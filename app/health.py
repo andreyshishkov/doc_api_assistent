@@ -49,7 +49,7 @@ async def check_all_services() -> dict:
     """Возвращает полный отчёт о состоянии сервиса."""
     qdrant = await check_qdrant()
     ollama = await check_ollama()
-    docs = check_docs
+    docs = check_docs()
     rag_canary = run_rag_canary_check()
 
     status = 'healthy' if all([qdrant, ollama, docs, rag_canary]) else 'unhealthy'
