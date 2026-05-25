@@ -8,6 +8,7 @@ from app.schemas import SearchRequest, SearchResponse, GenerateRequeest, Generat
 from app.rag import initialize_rag_from_docs, search_documentation, add_document_to_index
 from app.agents import generate_and_validate_documentation
 from app.storage import save_document
+from app.health import check_all_services
 
 
 @asynccontextmanager
@@ -77,3 +78,14 @@ def generate_docs(request: GenerateRequeest):
             success=False,
             message=f'Ошибка генерации: {str(e)}'
         )
+    
+
+@app.get('/health')
+async def health_check():
+    """
+    Расширенный health-check:
+    - зависимости (Qdrant, Ollama),
+    - данные (docs/),
+    - функциональность (canary RAG-запрос).
+    """
+    return await check_all_services()
